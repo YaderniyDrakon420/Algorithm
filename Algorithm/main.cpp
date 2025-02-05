@@ -1,27 +1,28 @@
 #include <iostream>
+#include <vector>
 #include "operations.h"
 
 int main()
 {
-    minchislo min;
-    maxchislo max;
-    zrostanya zrist;
-    spadanya spad;
-    IncreaseBy increase(5);
-    DecreaseBy decrease(2);
-    RemoveValue remove(5);
+    std::vector<int> arr = { 5, 2, 1, 4, 3 };
 
-    std::vector<int> arr = { 5,2,1,4,3 };
+    MinElement<std::vector<int>> min;
+    MaxElement<std::vector<int>> max;
+    SortAscending<std::vector<int>> sortAsc;
+    SortDescending<std::vector<int>> sortDesc;
+    IncreaseBy<std::vector<int>, int> increase(5);
+    DecreaseBy<std::vector<int>, int> decrease(2);
+    RemoveValue<std::vector<int>, int> remove(5);
 
     std::cout << "Min: " << min(arr) << "\n";
     std::cout << "Max: " << max(arr) << "\n";
 
-    std::cout << "Za zrostanyam: ";
-    zrist(arr);
+    std::cout << "Sorted ascending: ";
+    sortAsc(arr);
     print(arr);
 
-    std::cout << "Za spadanyam: ";
-    spad(arr);
+    std::cout << "Sorted descending: ";
+    sortDesc(arr);
     print(arr);
 
     increase(arr);
@@ -38,3 +39,5 @@ int main()
 
     return 0;
 }
+
+

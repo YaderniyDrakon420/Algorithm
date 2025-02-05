@@ -5,64 +5,68 @@
 #include <algorithm>
 #include <iostream>
 
-template<typename T>
-void print(const std::vector<T>& vector)
-{
-    for (const auto& item : vector)
-        std::cout << item << ' ';
-    std::cout << std::endl;
-}
+template<typename Container>
+void print(const Container& container);
 
-class minchislo
+template <typename Container>
+class MinElement
 {
 public:
-    int operator()(const std::vector<int>& vector);
+    auto operator()(const Container& container) -> decltype(*container.begin());
 };
 
-class maxchislo
+template <typename Container>
+class MaxElement
 {
 public:
-    int operator()(const std::vector<int>& vector);
+    auto operator()(const Container& container) -> decltype(*container.begin());
 };
 
-class zrostanya
+template <typename Container>
+class SortAscending
 {
 public:
-    void operator()(std::vector<int>& vector);
+    void operator()(Container& container);
 };
 
-class spadanya
+template <typename Container>
+class SortDescending
 {
 public:
-    void operator()(std::vector<int>& vector);
+    void operator()(Container& container);
 };
 
+template <typename Container, typename T>
 class IncreaseBy
 {
 private:
-    int value;
+    T value;
 public:
-    IncreaseBy(int value);
-    void operator()(std::vector<int>& vector);
+    IncreaseBy(T val);
+    void operator()(Container& container);
 };
 
+template <typename Container, typename T>
 class DecreaseBy
 {
 private:
-    int value;
+    T value;
 public:
-    DecreaseBy(int value);
-    void operator()(std::vector<int>& vector);
+    DecreaseBy(T val);
+    void operator()(Container& container);
 };
 
+template <typename Container, typename T>
 class RemoveValue
 {
 private:
-    int value;
+    T value;
 public:
-    RemoveValue(int value);
-    void operator()(std::vector<int>& vector) const;
+    RemoveValue(T val);
+    void operator()(Container& container);
 };
 
 #endif 
+
+
 

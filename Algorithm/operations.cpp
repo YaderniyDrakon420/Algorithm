@@ -1,48 +1,78 @@
 #include "operations.h"
 
-int minchislo::operator()(const std::vector<int>& vector)
+template <typename Container>
+auto MinElement<Container>::operator()(const Container& container) -> decltype(*container.begin())
 {
-    return *std::min_element(vector.begin(), vector.end());
+    return *std::min_element(container.begin(), container.end());
 }
 
-int maxchislo::operator()(const std::vector<int>& vector)
+template <typename Container>
+auto MaxElement<Container>::operator()(const Container& container) -> decltype(*container.begin())
 {
-    return *std::max_element(vector.begin(), vector.end());
+    return *std::max_element(container.begin(), container.end());
 }
 
-void zrostanya::operator()(std::vector<int>& vector)
+template <typename Container>
+void SortAscending<Container>::operator()(Container& container)
 {
-    std::sort(vector.begin(), vector.end());
+    std::sort(container.begin(), container.end());
 }
 
-void spadanya::operator()(std::vector<int>& vector)
+template <typename Container>
+void SortDescending<Container>::operator()(Container& container)
 {
-    std::sort(vector.begin(), vector.end(), std::greater<int>());
+    std::sort(container.begin(), container.end(), std::greater<typename Container::value_type>());
 }
 
-IncreaseBy::IncreaseBy(int value) : value(value) {}
+template <typename Container, typename T>
+IncreaseBy<Container, T>::IncreaseBy(T val) : value(val) {}
 
-void IncreaseBy::operator()(std::vector<int>& vector)
+template <typename Container, typename T>
+void IncreaseBy<Container, T>::operator()(Container& container)
 {
-    for (int& num : vector)
+    for (auto& num : container)
     {
         num += value;
     }
 }
 
-DecreaseBy::DecreaseBy(int value) : value(value) {}
+template <typename Container, typename T>
+DecreaseBy<Container, T>::DecreaseBy(T val) : value(val) {}
 
-void DecreaseBy::operator()(std::vector<int>& vector)
+template <typename Container, typename T>
+void DecreaseBy<Container, T>::operator()(Container& container)
 {
-    for (int& num : vector)
+    for (auto& num : container)
     {
         num -= value;
     }
 }
 
-RemoveValue::RemoveValue(int value) : value(value) {}
+template <typename Container, typename T>
+RemoveValue<Container, T>::RemoveValue(T val) : value(val) {}
 
-void RemoveValue::operator()(std::vector<int>& vector) const
+template <typename Container, typename T>
+void RemoveValue<Container, T>::operator()(Container& container)
 {
-    vector.erase(std::remove(vector.begin(), vector.end(), value), vector.end());
+    container.erase(std::remove(container.begin(), container.end(), value), container.end());
 }
+
+template <typename Container>
+void print(const Container& container)
+{
+    for (const auto& item : container)
+        std::cout << item << ' ';
+    std::cout << std::endl;
+}
+
+template class MinElement<std::vector<int>>;
+template class MaxElement<std::vector<int>>;
+template class SortAscending<std::vector<int>>;
+template class SortDescending<std::vector<int>>;
+template class IncreaseBy<std::vector<int>, int>;
+template class DecreaseBy<std::vector<int>, int>;
+template class RemoveValue<std::vector<int>, int>;
+
+template void print<std::vector<int>>(const std::vector<int>&);
+
+
